@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 15:18:13 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/10 18:11:22 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/10 19:26:00 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <cstring>
 #include <stdexcept>
 
-Renderer::Renderer() : _currentColorPair(0) {}
+Renderer::Renderer() : _currentColorPair(0), _initialized(false) {}
 
 Renderer::~Renderer() {
 	endwin();
@@ -31,6 +31,7 @@ void Renderer::init() {
 	curs_set(0);
 	nodelay(stdscr, TRUE);
 	start_color();
+	_initialized = true;
 }
 
 void Renderer::setDrawColor(int32_t foreground, int32_t background) {
@@ -53,8 +54,12 @@ void Renderer::setDrawColor(int32_t foreground, int32_t background) {
 }
 
 void Renderer::drawText(const std::string &text, uint32_t x, uint32_t y) const {
-	if (mvaddstr(y, x, text.c_str()) == ERR)
-		throw(std::runtime_error(strerror(errno)));
+	if (mvaddstr(y, x, text.c_str()) == ERR) {
+		if (not _initialized)
+			throw(std::runtime_error("Renderer not initialized"));
+		else
+			throw(std::runtime_error(strerror(errno)));
+	}
 }
 
 void Renderer::clearScreen() const {

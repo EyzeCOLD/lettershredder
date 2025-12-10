@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 14:49:04 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/10 18:02:20 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/10 19:23:51 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ class Renderer {
 	private:
 		std::map<std::pair<int32_t, int32_t>, int32_t> _colorPairCache;
 		int32_t										   _currentColorPair;
+		bool										   _initialized;
 
 	public:
 		Renderer();

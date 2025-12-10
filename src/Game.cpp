@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:23:40 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/10 17:22:01 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/10 19:15:35 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 #include <ncurses.h>
 
-Game::Game() {
-	initNcurses();
-}
+Game::Game() {}
 
 Game::~Game() {}
 
