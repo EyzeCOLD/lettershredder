@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AGamestate.hpp                                     :+:      :+:    :+:   */
+/*   MenuItem.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/08 11:37:49 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/11 21:04:06 by juaho            ###   ########.fr       */
+/*   Created: 2025/12/11 09:40:18 by juaho             #+#    #+#             */
+/*   Updated: 2025/12/11 09:44:54 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AGAMESTATE_HPP
-#define AGAMESTATE_HPP
-#include "Renderer.hpp"
+#ifndef MENUITEM_HPP
+#define MENUITEM_HPP
+#include <string>
 
-class AGamestate {
+class MenuItem {
 	private:
-		enum Type { MenuState, PuzzleState };
+		const std::string _label;
+		int32_t			  _onActivate;
 
 	public:
-		AGamestate() = default;
-		virtual ~AGamestate() = default;
-		virtual void	handleInput() = 0;
-		virtual void	update(float deltaTime) = 0;
-		virtual void	render(Renderer &renderer) = 0;
-		virtual int32_t getStateRequest() const = 0;
+		MenuItem(const std::string &label, int32_t onActivate)
+			: _label(label), _onActivate(onActivate) {};
+
+		~MenuItem() = default;
+
+		const std::string &getLabel() const {
+			return (_label);
+		};
+
+		int32_t activate() const {
+			return (_onActivate);
+		};
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 15:18:13 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/10 19:26:00 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/11 10:09:49 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void Renderer::drawText(const std::string &text, uint32_t x, uint32_t y) const {
 }
 
 void Renderer::clearScreen() const {
-	clear();
+	erase();
 }
 
 void Renderer::render() const {

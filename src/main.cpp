@@ -12,8 +12,10 @@ int main() {
 	bool running = true;
 	while (running) {
 		menu.handleInput();
+		menu.update(0.0);
 		if (menu.getStateRequest() == 1)
 			running = false;
+		r.clearScreen();
 		menu.render(r);
 		r.render();
 		napms(16);

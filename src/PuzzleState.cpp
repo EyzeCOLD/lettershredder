@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AGamestate.hpp                                     :+:      :+:    :+:   */
+/*   PuzzleState.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/08 11:37:49 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/11 21:04:06 by juaho            ###   ########.fr       */
+/*   Created: 2025/12/11 10:33:42 by juaho             #+#    #+#             */
+/*   Updated: 2025/12/11 10:35:19 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AGAMESTATE_HPP
-#define AGAMESTATE_HPP
-#include "Renderer.hpp"
+#include "PuzzleState.hpp"
 
-class AGamestate {
-	private:
-		enum Type { MenuState, PuzzleState };
+PuzzleState::PuzzleState() {}
 
-	public:
-		AGamestate() = default;
-		virtual ~AGamestate() = default;
-		virtual void	handleInput() = 0;
-		virtual void	update(float deltaTime) = 0;
-		virtual void	render(Renderer &renderer) = 0;
-		virtual int32_t getStateRequest() const = 0;
-};
+PuzzleState::~PuzzleState() {}
 
-#endif
+void PuzzleState::handleInput() {}
+
+void PuzzleState::update(float deltaTime) {
+	(void)deltaTime;
+}
+
+void render(Renderer &renderer) {}

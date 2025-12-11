@@ -16,7 +16,15 @@
                                             
 NAME		:= bin/lettershredder
 SRC_DIR		:= src/
-SRC			:= main.cpp Game.cpp Renderer.cpp Wordlist.cpp
+
+SRC			:= Game.cpp \
+			   Level.cpp \
+			   MenuState.cpp \
+			   PuzzleState.cpp \
+			   Renderer.cpp \
+			   Wordlist.cpp \
+			   main.cpp
+
 SRC			:= $(addprefix $(SRC_DIR), $(SRC))
 
 OBJ_DIR		:= obj/
