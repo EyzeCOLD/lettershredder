@@ -22,6 +22,7 @@ SRC			:= Game.cpp \
 			   MenuState.cpp \
 			   PuzzleState.cpp \
 			   Renderer.cpp \
+			   StateManager.cpp \
 			   Wordlist.cpp \
 			   main.cpp
 
@@ -53,6 +54,8 @@ SPEED_FLAGS	:= -O2
 DEBUG_FLAGS := -g -O0 -ggdb -gdwarf-4 -D DEBUG
 DEP_FLAGS	:= -MMD -MP
 
+LIBS 		:= -lncurses
+
 ### RULES ###
 
 all: compile_flags.txt $(NAME)
@@ -62,7 +65,7 @@ compile_flags.txt:
 
 $(NAME): $(OBJ)
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) $(SPEED_FLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $(SPEED_FLAGS) $(LIBS) $^ -o $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 	@mkdir -p $(dir $@)

@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 15:18:13 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/11 10:09:49 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/15 16:13:58 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 Renderer::Renderer() : _currentColorPair(0), _initialized(false) {}
 
 Renderer::~Renderer() {
+	clear();
 	endwin();
 }
 

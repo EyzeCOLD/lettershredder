@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 11:34:42 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/10 14:47:33 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/15 16:08:53 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,16 @@ class StateManager {
 	private:
 		AGamestate *_gameState;
 
+		void loadState(AGamestate *newState);
+
 	public:
 		StateManager();
 		~StateManager();
 		void handleInput();
 		void update(float deltaTime);
 		void render(Renderer &renderer);
+		void checkStateRequests();
+		bool hasState() const;
 };
 
 #endif

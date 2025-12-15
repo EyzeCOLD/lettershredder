@@ -1,24 +1,20 @@
-#include <ncurses.h>
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/15 15:01:09 by juaho             #+#    #+#             */
+/*   Updated: 2025/12/15 15:10:16 by juaho            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "MenuState.hpp"
-#include "Renderer.hpp"
+#include "Game.hpp"
 
 int main() {
-	Renderer  r;
-	MenuState menu;
-
-	r.init();
-	bool running = true;
-	while (running) {
-		menu.handleInput();
-		menu.update(0.0);
-		if (menu.getStateRequest() == 1)
-			running = false;
-		r.clearScreen();
-		menu.render(r);
-		r.render();
-		napms(16);
-	}
+	Game g;
+	g.init();
+	g.run();
 	return 0;
 }

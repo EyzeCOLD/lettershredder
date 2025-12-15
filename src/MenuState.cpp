@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 18:33:25 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/11 10:18:26 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/15 16:06:40 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ void MenuState::handleInput() {
 void MenuState::update(float deltaTime) {
 	(void)deltaTime;
 	if (_stateRequest == 3 && _currentMenu == &_mainMenu) {
+		_stateRequest = 0;
 		_currentMenu = &_optionsMenu;
 		_selectedId = 0;
 	}
 	if (_stateRequest == 4 && _currentMenu == &_optionsMenu) {
+		_stateRequest = 0;
 		_currentMenu = &_mainMenu;
 		_selectedId = 0;
 	}
