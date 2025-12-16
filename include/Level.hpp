@@ -14,7 +14,6 @@
 #define LEVEL_HPP
 #define PUZZLE_H 10
 #define PUZZLE_W 10
-#include <iostream>
 #include <string>
 
 class Level {
@@ -25,15 +24,9 @@ class Level {
 	public:
 		Level();
 		~Level() = default;
-		void loadFromFile(const std::string &path);
-		void printPuzzle() const {
-			std::cout << "Remaining Moves: " << _remainingMoves << std::endl;
-			for (uint32_t y = 0; y < PUZZLE_H; y++) {
-				for (uint32_t x = 0; x < PUZZLE_H; x++)
-					std::cout << _grid[y][x];
-				std::cout << std::endl;
-			}
-		}
+		void	 loadFromFile(const std::string &path);
+		char	 getCell(uint32_t x, uint32_t y) const;
+		uint32_t getRemainingMoves() const;
 };
 
 #endif

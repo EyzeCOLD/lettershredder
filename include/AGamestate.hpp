@@ -20,7 +20,7 @@ class AGamestate {
 		virtual ~AGamestate() = default;
 		virtual void	handleInput() = 0;
 		virtual void	update(float deltaTime) = 0;
-		virtual void	render(Renderer &renderer) = 0;
+		virtual void	render(Renderer &renderer) const = 0;
 		virtual int32_t getStateRequest() const = 0;
 };
 

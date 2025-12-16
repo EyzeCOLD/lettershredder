@@ -12,7 +12,7 @@
 
 #include "Game.hpp"
 
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 
 Game::Game() {}
 

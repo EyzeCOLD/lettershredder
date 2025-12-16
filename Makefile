@@ -54,7 +54,7 @@ SPEED_FLAGS	:= -O2
 DEBUG_FLAGS := -g -O0 -ggdb -gdwarf-4 -D DEBUG
 DEP_FLAGS	:= -MMD -MP
 
-LIBS 		:= -lncurses
+LIBS 		:= -lncursesw
 
 ### RULES ###
 
@@ -65,7 +65,7 @@ compile_flags.txt:
 
 $(NAME): $(OBJ)
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) $(SPEED_FLAGS) $(LIBS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $(SPEED_FLAGS) $^ $(LIBS) -o $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 	@mkdir -p $(dir $@)

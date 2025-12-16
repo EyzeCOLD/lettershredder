@@ -40,7 +40,7 @@ void Level::loadFromFile(const std::string &path) {
 					"Level::loadFromFile(): non-alphabetic blocks"));
 			}
 			_grid[y][x] = c;
-			if (++x >= PUZZLE_W)
+			if (++x > PUZZLE_W)
 				throw(
 					std::runtime_error("Level::loadFromFile(): grid too wide"));
 		}
@@ -50,7 +50,7 @@ void Level::loadFromFile(const std::string &path) {
 			_grid[y][x] = ' ';
 			++x;
 		}
-		if (++y >= PUZZLE_H)
+		if (++y > PUZZLE_H)
 			throw(std::runtime_error("Level::loadFromFile(): grid too high"));
 	}
 
@@ -62,4 +62,12 @@ void Level::loadFromFile(const std::string &path) {
 		}
 		++y;
 	}
+}
+
+char Level::getCell(uint32_t x, uint32_t y) const {
+	return (_grid[y][x]);
+}
+
+uint32_t Level::getRemainingMoves() const {
+	return (_remainingMoves);
 }

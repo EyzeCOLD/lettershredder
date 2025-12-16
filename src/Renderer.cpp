@@ -12,7 +12,8 @@
 
 #include "Renderer.hpp"
 
-#include <ncurses.h>
+#include <locale.h>
+#include <ncursesw/ncurses.h>
 
 #include <cstring>
 #include <stdexcept>
@@ -20,11 +21,11 @@
 Renderer::Renderer() : _currentColorPair(0), _initialized(false) {}
 
 Renderer::~Renderer() {
-	clear();
 	endwin();
 }
 
 void Renderer::init() {
+	setlocale(LC_ALL, "");
 	initscr();
 	cbreak();
 	noecho();
@@ -54,8 +55,21 @@ void Renderer::setDrawColor(int32_t foreground, int32_t background) {
 	attron(COLOR_PAIR(_currentColorPair));
 }
 
+void Renderer::resetDrawColor() {
+	setDrawColor(7, 0);
+}
+
 void Renderer::drawText(const std::string &text, uint32_t x, uint32_t y) const {
 	if (mvaddstr(y, x, text.c_str()) == ERR) {
+		if (not _initialized)
+			throw(std::runtime_error("Renderer not initialized"));
+		else
+			throw(std::runtime_error(strerror(errno)));
+	}
+}
+
+void Renderer::drawChar(char c, uint32_t x, uint32_t y) const {
+	if (mvaddch(y, x, c) == ERR) {
 		if (not _initialized)
 			throw(std::runtime_error("Renderer not initialized"));
 		else

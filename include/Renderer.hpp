@@ -27,7 +27,9 @@ class Renderer {
 
 		void init();
 		void setDrawColor(int32_t foreground, int32_t background);
+		void resetDrawColor();
 		void drawText(const std::string &text, uint32_t x, uint32_t y) const;
+		void drawChar(char c, uint32_t x, uint32_t y) const;
 		void clearScreen() const;
 		void render() const;
 };

@@ -31,7 +31,7 @@ class MenuState : public AGamestate {
 		~MenuState() = default;
 		void	handleInput();
 		void	update(float deltaTime);
-		void	render(Renderer &renderer);
+		void	render(Renderer &renderer) const;
 		int32_t getStateRequest() const;
 };
 

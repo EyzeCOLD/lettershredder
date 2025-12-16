@@ -12,7 +12,7 @@
 
 #include "MenuState.hpp"
 
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 
 #include <stdexcept>
 
@@ -64,7 +64,7 @@ void MenuState::update(float deltaTime) {
 	}
 }
 
-void MenuState::render(Renderer &renderer) {
+void MenuState::render(Renderer &renderer) const {
 	renderer.setDrawColor(6, 0);
 	renderer.drawText(
 		"                          _          _   _\n"
