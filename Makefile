@@ -12,7 +12,7 @@
 #		 \____/|_| |_|_|  \___|\__,_|\__,_|\___|_|   
 #		
 
-### SOURCES ###
+### SOURCES ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
                                             
 NAME		:= bin/lettershredder
 SRC_DIR		:= src/
@@ -35,7 +35,7 @@ INC			:= -I./include/
 
 DEP			:= $(OBJ:.o=.d)
 
-# DEBUG #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DEBUG			:= debug/$(NAME)
 
@@ -44,7 +44,7 @@ DEBUG_OBJ		:= $(patsubst $(SRC_DIR)%.cpp, $(DEBUG_OBJ_DIR)%.o, $(SRC))
 
 DEBUG_DEP		:= $(DEBUG_OBJ:.o=.d)
 
-### FLAGS ###
+### FLAGS ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 CXX			:= c++
 CXXSTD		:= -std=c++11
@@ -56,9 +56,9 @@ DEP_FLAGS	:= -MMD -MP
 
 LIBS 		:= -lncursesw
 
-### RULES ###
+### RULES ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-all: compile_flags.txt $(NAME)
+all: $(NAME)
 
 compile_flags.txt:
 	@printf "%s\n" $(INC) > $@
@@ -67,23 +67,31 @@ $(NAME): $(OBJ)
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(SPEED_FLAGS) $^ $(LIBS) -o $@
 
+$(OBJ): compile_flags.txt
+
 $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(INC) $(DEP_FLAGS) -c $< -o $@
 
 -include $(DEP)
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
 debug: $(DEBUG)
 
 $(DEBUG): $(DEBUG_OBJ)
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $(DEBUG_FLAGS) $^ $(LIBS) -o $@
+
+$(DEBUG_OBJ): compile_flags.txt
 
 $(DEBUG_OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(DEBUG_FLAGS) $(INC) $(DEP_FLAGS) -c $< -o $@
 
 -include $(DEBUG_DEP)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 clean:
 	rm -rf $(OBJ_DIR)
@@ -94,8 +102,12 @@ fclean: clean
 	rm -rf debug/
 	rm -rf compile_flags.txt
 
-re: fclean all
+re:
+	$(MAKE) fclean
+	$(MAKE) all
 
-dere: fclean debug
+dere:
+	$(MAKE) fclean
+	$(MAKE) debug
 
 .PHONY: all debug clean fclean re dere
