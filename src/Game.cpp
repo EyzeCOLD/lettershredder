@@ -20,8 +20,10 @@ Game::~Game() {}
 
 void Game::init() {
 	_wordlist.loadFile("./wordlists/wordlist.txt");
+	Level l;
+	l.loadFromFile("./levels/puzzle1.txt");
+	_levels.push_back(l);
 	_renderer.init();
-	_level.loadFromFile("./levels/puzzle1.txt");
 }
 
 void Game::run() {
@@ -32,7 +34,15 @@ void Game::run() {
 		_renderer.clearScreen();
 		_stateManager.render(_renderer);
 		_renderer.render();
-		_stateManager.checkStateRequests();
+		_stateManager.handleStateRequests(*this);
 		napms(20);
 	}
+}
+
+const std::deque<Level> &Game::getLevels() const {
+	return (_levels);
+}
+
+const Wordlist &Game::getWordlist() const {
+	return (_wordlist);
 }

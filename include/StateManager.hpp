@@ -14,6 +14,8 @@
 #define STATEMANAGER_HPP
 #include "AGamestate.hpp"
 
+class Game;
+
 class StateManager {
 	private:
 		AGamestate *_gameState;
@@ -26,7 +28,7 @@ class StateManager {
 		void handleInput();
 		void update(float deltaTime);
 		void render(Renderer &renderer);
-		void checkStateRequests();
+		void handleStateRequests(const Game &game);
 		bool hasState() const;
 };
 

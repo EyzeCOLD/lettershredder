@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 11:54:28 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/11 12:41:24 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/29 15:05:26 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void Level::loadFromFile(const std::string &path) {
 		x = 0;
 		for (char c : line) {
 			if (c >= 'a' && c <= 'z') {
-				_grid[y][x] = std::toupper(c);
+				setCell(std::toupper(c), x, y);
 			} else if ((c < 'A' || c > 'Z') && c != ' ') {
 				throw(std::runtime_error(
 					"Level::loadFromFile(): non-alphabetic blocks"));
 			}
-			_grid[y][x] = c;
+			setCell(c, x, y);
 			if (++x > PUZZLE_W)
 				throw(
 					std::runtime_error("Level::loadFromFile(): grid too wide"));
@@ -47,7 +47,7 @@ void Level::loadFromFile(const std::string &path) {
 
 		// pad with spaces
 		while (x < PUZZLE_W) {
-			_grid[y][x] = ' ';
+			setCell(' ', x, y);
 			++x;
 		}
 		if (++y > PUZZLE_H)
@@ -57,7 +57,7 @@ void Level::loadFromFile(const std::string &path) {
 	while (y < PUZZLE_W) {
 		x = 0;
 		while (x < PUZZLE_W) {
-			_grid[y][x] = ' ';
+			setCell(' ', x, y);
 			++x;
 		}
 		++y;
@@ -65,7 +65,11 @@ void Level::loadFromFile(const std::string &path) {
 }
 
 char Level::getCell(uint32_t x, uint32_t y) const {
-	return (_grid[y][x]);
+	return (_grid[x + y * PUZZLE_W]);
+}
+
+void Level::setCell(char c, uint32_t x, uint32_t y) {
+	_grid[x + y * PUZZLE_W] = c;
 }
 
 uint32_t Level::getRemainingMoves() const {

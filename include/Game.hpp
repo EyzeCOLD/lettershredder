@@ -12,6 +12,8 @@
 
 #ifndef GAME_HPP
 #define GAME_HPP
+#include <deque>
+
 #include "Level.hpp"
 #include "Renderer.hpp"
 #include "StateManager.hpp"
@@ -19,16 +21,18 @@
 
 class Game {
 	private:
-		StateManager _stateManager;
-		Renderer	 _renderer;
-		Level		 _level;
-		Wordlist	 _wordlist;
+		StateManager	  _stateManager;
+		Renderer		  _renderer;
+		std::deque<Level> _levels;
+		Wordlist		  _wordlist;
 
 	public:
 		Game();
 		~Game();
-		void init();
-		void run();
+		void					 init();
+		void					 run();
+		const std::deque<Level> &getLevels() const;
+		const Wordlist			&getWordlist() const;
 };
 
 #endif

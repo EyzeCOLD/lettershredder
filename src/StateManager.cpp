@@ -13,14 +13,16 @@
 #include "StateManager.hpp"
 
 #include "AGamestate.hpp"
+#include "Game.hpp"
 #include "MenuState.hpp"
 #include "PuzzleState.hpp"
 
-StateManager::StateManager() : _gameState(new MenuState()) {}
+StateManager::StateManager() : _gameState(nullptr) {
+	loadState(new MenuState());
+}
 
 StateManager::~StateManager() {
-	if (_gameState)
-		delete _gameState;
+	delete _gameState;
 }
 
 void StateManager::loadState(AGamestate *newState) {
@@ -40,14 +42,18 @@ void StateManager::render(Renderer &render) {
 	_gameState->render(render);
 }
 
-void StateManager::checkStateRequests() {
+void StateManager::handleStateRequests(const Game &game) {
 	switch (_gameState->getStateRequest()) {
 		case 1:
 			delete _gameState;
 			_gameState = nullptr;
 			break;
 		case 2:
-			loadState(new PuzzleState());
+			loadState(new PuzzleState(game));
+			break;
+		case 3:
+			loadState(new MenuState());
+			break;
 		default:
 			break;
 	}
