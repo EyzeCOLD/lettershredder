@@ -19,6 +19,7 @@ SRC_DIR		:= src/
 
 SRC			:= Game.cpp \
 			   Level.cpp \
+			   LevelRunner.cpp \
 			   MenuState.cpp \
 			   PuzzleState.cpp \
 			   Renderer.cpp \

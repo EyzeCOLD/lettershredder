@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 11:54:28 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/29 15:05:26 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/30 15:33:56 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,33 @@ void Level::loadFromFile(const std::string &path) {
 	}
 }
 
-char Level::getCell(uint32_t x, uint32_t y) const {
-	return (_grid[x + y * PUZZLE_W]);
+void Level::setRemainingMoves(uint32_t moves) {
+	_remainingMoves = moves;
 }
 
 void Level::setCell(char c, uint32_t x, uint32_t y) {
 	_grid[x + y * PUZZLE_W] = c;
 }
 
+const std::array<char, PUZZLE_AREA> &Level::getGrid() const {
+	return (_grid);
+}
+
+char Level::getCell(uint32_t x, uint32_t y) const {
+	return (_grid[x + y * PUZZLE_W]);
+}
+
 uint32_t Level::getRemainingMoves() const {
 	return (_remainingMoves);
+}
+
+bool Level::hasFloatingBlocks() const {
+	for (uint32_t col = 0; col < PUZZLE_W; ++col) {
+		for (int32_t row = PUZZLE_H - 2; row > -1; --row) {
+			if (getCell(col, row) != ' ' && getCell(col, row + 1) == ' ') {
+				return (true);
+			}
+		}
+	}
+	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 10:33:42 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/29 15:24:51 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/30 16:02:01 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@
 
 PuzzleState::PuzzleState(const Game &game)
 	: _levels(game.getLevels()),
-	  _activeLevel(_levels.at(0)),
+	  _levelRunner(_levels.front()),
 	  _wordlist(game.getWordlist()),
-	  _stateRequest(0) {
-	_hilit.fill(false);
-}
+	  _stateRequest(0) {}
 
 PuzzleState::~PuzzleState() {}
 
@@ -34,11 +32,23 @@ void PuzzleState::handleInput() {
 		_input.push_back(static_cast<char>(key));
 	} else if (_input.size() && key == KEY_BACKSPACE) {
 		_input.erase(std::prev(_input.end()));
+	} else if (key == KEY_ENTER || key == 10) {
+		_levelRunner.destroyMatches();
+		_input.clear();
+	} else if (key == '`') {
+		_levelRunner.undoMove();
+		_input.clear();
+	} else {
+		return;
 	}
+
+	_levelRunner.updateMatches(_input);
+	_levelRunner.hilightMatches();
 }
 
 void PuzzleState::update(float deltaTime) {
 	(void)deltaTime;
+	_levelRunner.applyGravity();
 }
 
 void PuzzleState::render(Renderer &renderer) const {
@@ -70,17 +80,22 @@ void PuzzleState::drawPuzzleFrame(Renderer &renderer) const {
 }
 
 void PuzzleState::drawLevel(Renderer &renderer) const {
+	Level level = _levelRunner.getCurrentState();
+
 	std::string remaining =
-		"Moves Left: " + std::to_string(_activeLevel.getRemainingMoves());
+		"Moves Left: " + std::to_string(level.getRemainingMoves());
 
 	renderer.drawText(remaining.c_str(), UI_X + 1, UI_Y - 2);
 	renderer.setDrawColor(6, 0);
 	for (uint32_t y = 0; y < PUZZLE_H; y++) {
 		for (uint32_t x = 0; x < PUZZLE_W; x++) {
-			if (_activeLevel.getCell(x, y) != ' ') {
+			if (level.getCell(x, y) != ' ') {
 				renderer.drawText("[ ]", UI_X + 1 + x * 3, UI_Y + 1 + y);
-				renderer.setDrawColor(7, 0);
-				renderer.drawChar(_activeLevel.getCell(x, y), UI_X + 2 + x * 3,
+				if (_levelRunner.isHilit(x, y))
+					renderer.setDrawColor(6, 0);
+				else
+					renderer.setDrawColor(7, 0);
+				renderer.drawChar(level.getCell(x, y), UI_X + 2 + x * 3,
 								  UI_Y + 1 + y);
 				renderer.setDrawColor(6, 0);
 			} else
@@ -88,55 +103,6 @@ void PuzzleState::drawLevel(Renderer &renderer) const {
 		}
 	}
 	renderer.resetDrawColor();
-}
-
-std::deque<Tree<PuzzleState::Coord>> PuzzleState::findMatches() const {
-	std::deque<Tree<PuzzleState::Coord>> matches;
-	if (_input.empty())
-		return (matches);
-	for (uint32_t y = 0; y < PUZZLE_H; ++y) {
-		for (uint32_t x = 0; x < PUZZLE_W; ++x) {
-			if (_activeLevel.getCell(x, y) != _input.at(0))
-				continue;
-			Tree<Coord> tree({x, y});
-			matches.push_back(tree);
-			// start tracking usedLetters for each tree
-			std::array<bool, PUZZLE_AREA> usedLetters;
-			for (bool &b : usedLetters)
-				b = false;
-			matchRecur(x + 1, y, matches.back(), 1, usedLetters);
-			matchRecur(x - 1, y, matches.back(), 1, usedLetters);
-			matchRecur(x, y + 1, matches.back(), 1, usedLetters);
-			matchRecur(x, y - 1, matches.back(), 1, usedLetters);
-			if (matches.back().getChildren().empty() && _input.length() > 1)
-				matches.erase(matches.end() - 1);
-		}
-	}
-	return (matches);
-}
-
-uint32_t PuzzleState::matchRecur(
-	uint32_t x, uint32_t y, Tree<Coord> &tree, uint32_t idx,
-	std::array<bool, PUZZLE_AREA> usedLetters) const {
-	if (idx == _input.length())
-		return (1);
-	if (x > PUZZLE_W || y > PUZZLE_H)
-		return (0);
-	if (usedLetters[x + y * PUZZLE_W])
-		return (0);
-	if (_activeLevel.getCell(x, y) != _input.at(idx))
-		return (0);
-	usedLetters[x + y * PUZZLE_W] = true;
-	Coord	 coord = {x, y};
-	auto	&next = tree.addChild(coord);
-	uint32_t sum = 0;
-	sum += matchRecur(x + 1, y, next, idx + 1, usedLetters);
-	sum += matchRecur(x - 1, y, next, idx + 1, usedLetters);
-	sum += matchRecur(x, y + 1, next, idx + 1, usedLetters);
-	sum += matchRecur(x, y - 1, next, idx + 1, usedLetters);
-	if (sum == 0)
-		tree.deleteLastChild();
-	return (sum);
 }
 
 int32_t PuzzleState::getStateRequest() const {

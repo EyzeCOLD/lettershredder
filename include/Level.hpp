@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 11:28:42 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/29 15:04:28 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/30 15:33:02 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ class Level {
 
 	public:
 		Level();
-		~Level() = default;
-		void	 loadFromFile(const std::string &path);
+		void loadFromFile(const std::string &path);
+		void setCell(char c, uint32_t x, uint32_t y);
+		void setRemainingMoves(uint32_t moves);
+
+		const std::array<char, PUZZLE_AREA> &getGrid() const;
 		char	 getCell(uint32_t x, uint32_t y) const;
-		void	 setCell(char c, uint32_t x, uint32_t y);
 		uint32_t getRemainingMoves() const;
+		bool	 hasFloatingBlocks() const;
 };
 
 #endif
