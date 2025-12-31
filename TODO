@@ -1,0 +1,53 @@
+Puzzle Mode:
+	* Create more levels (atleast 20)
+	* Create loss/retry screen when out of moves and not clear
+	* Create a win screen when you beat the game
+	* Implement delta time to make a more sophisticated system for timing and
+	animations
+
+	+ Ideas:
+		- World system, to divide levels into worlds
+		- Save player progress, so you don't have to restart
+		- Custom puzzles from files, could be multiple puzzles per file
+		- So there would be a level select menu under Puzzle Mode
+
+Endless Mode:
+	* Implement the whole thing
+	* Figure out a way to generate a lot of words, maybe build some sort of data
+	based on the actual wordlist?
+	* There needs to be a way to set the seed so two players can compete with
+	the same seed.
+	* Highscore rankings
+
+	+ Ideas:
+		- Lose condition: run out of time, longer words and multiples give more 
+		time relief.
+		- Some sort of mechanic to replace undo from Puzzle Mode to help you
+		manage variance
+
+			> Break lines for no points to clear a way for new words?
+			> Shuffle the board?
+
+		- It's all about highscore then, have to figure out some sort of point
+		system that awards you for longer words and multiples. Maybe there's
+		a combo multiplier for speed. Like a timer starts winding down after
+		you find a word and if you hit another one inside that window you
+		get megapoints.
+
+Shootout Mode:
+	* Random words from the dictionary are dropped into the frame and you have
+	to clear them fast. The idea would be mostly about typing fast, not about
+	finding jumbled words from the grid. So every word could just be spelled
+	left to right. Lose condition: a letter block that's on solid ground touches
+	the top?
+	* Honestly this requires a lot of prototyping.
+	* Highscore!
+
+Options:
+	* Color themes? Dark/light mode?
+	* Most likely just scrap it
+
+Gameplay Pause Menu:
+	* Help to show controls
+	* Exit to menu
+	* Exit game

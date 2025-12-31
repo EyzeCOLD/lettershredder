@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:23:40 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/15 16:05:41 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/31 15:49:37 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ Game::~Game() {}
 
 void Game::init() {
 	_wordlist.loadFile("./wordlists/wordlist.txt");
-	Level l;
-	l.loadFromFile("./levels/puzzle1.txt");
-	_levels.push_back(l);
+	_levels = getPuzzles();
 	_renderer.init();
 }
 

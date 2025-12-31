@@ -29,11 +29,15 @@ uint32_t LevelRunner::getMatchAmount() const {
 	return (_matches.size());
 }
 
-bool LevelRunner::isClear() const {
+bool LevelRunner::isClear() {
+	if (_clear)
+		return (true);
+
 	const Level &level = getCurrentState();
 	for (char c : level.getGrid())
 		if (c != ' ')
 			return (false);
+	_clear = true;
 	return (true);
 }
 
@@ -44,6 +48,7 @@ bool LevelRunner::isHilit(uint32_t x, uint32_t y) const {
 void LevelRunner::loadLevel(const Level &level) {
 	_levelHistory.clear();
 	_levelHistory.push_back(level);
+	_clear = false;
 }
 
 void LevelRunner::updateMatches(const std::string &str) {
@@ -53,14 +58,13 @@ void LevelRunner::updateMatches(const std::string &str) {
 
 	const Level &level = getCurrentState();
 
-	std::array<bool, PUZZLE_AREA> usedChars;
-	usedChars.fill(false);
-
 	for (uint32_t y = 0; y < PUZZLE_H; ++y) {
 		for (uint32_t x = 0; x < PUZZLE_W; ++x) {
 			if (level.getCell(x, y) != str.at(0))
 				continue;
 
+			std::array<bool, PUZZLE_AREA> usedChars;
+			usedChars.fill(false);
 			usedChars[x + y * PUZZLE_W] = true;
 			_matches.push_back(Tree<Coord>({x, y}));
 

@@ -21,6 +21,7 @@ SRC			:= Game.cpp \
 			   Level.cpp \
 			   LevelRunner.cpp \
 			   MenuState.cpp \
+			   Puzzles.cpp \
 			   PuzzleState.cpp \
 			   Renderer.cpp \
 			   StateManager.cpp \

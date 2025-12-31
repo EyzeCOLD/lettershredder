@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 11:54:28 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/30 15:33:56 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/31 15:20:44 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 #include <fstream>
 
-Level::Level() {}
+Level::Level() : _remainingMoves(0) {}
+
+Level::Level(std::array<char, PUZZLE_AREA> grid, uint32_t moves)
+	: _grid(grid), _remainingMoves(moves) {}
 
 void Level::loadFromFile(const std::string &path) {
 	std::ifstream file(path, std::ios::in);

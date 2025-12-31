@@ -27,7 +27,9 @@ class PuzzleState : public AGamestate {
 		static constexpr uint32_t UI_Y = 3;
 
 		std::string		  _input;
+		std::string		  _feedback;
 		std::deque<Level> _levels;
+		uint32_t		  _currentLevel;
 		LevelRunner		  _levelRunner;
 		const Wordlist	 &_wordlist;
 		int32_t			  _stateRequest;

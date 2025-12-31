@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 11:33:24 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/15 15:05:23 by juaho            ###   ########.fr       */
+/*   Updated: 2025/12/31 15:49:29 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ class Game {
 		Renderer		  _renderer;
 		std::deque<Level> _levels;
 		Wordlist		  _wordlist;
+
+		std::deque<Level> getPuzzles();
 
 	public:
 		Game();

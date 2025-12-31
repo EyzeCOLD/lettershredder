@@ -31,6 +31,7 @@ class LevelRunner {
 		std::deque<Level>			  _levelHistory;
 		std::array<bool, PUZZLE_AREA> _hilit;
 		std::deque<Tree<Coord>>		  _matches;
+		bool						  _clear;
 
 		uint32_t updateMatchesRecur(Coord c, Tree<Coord> &tree,
 									const std::string &str, uint32_t index,
@@ -44,7 +45,7 @@ class LevelRunner {
 
 		const Level &getCurrentState() const;
 		uint32_t	 getMatchAmount() const;
-		bool		 isClear() const;
+		bool		 isClear();
 		bool		 isHilit(uint32_t x, uint32_t y) const;
 		uint32_t	 getHistorySize() const {
 			return (_levelHistory.size());
