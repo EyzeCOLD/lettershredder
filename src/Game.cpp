@@ -14,6 +14,8 @@
 
 #include <ncursesw/ncurses.h>
 
+#include <chrono>
+
 Game::Game() {}
 
 Game::~Game() {}
@@ -25,15 +27,22 @@ void Game::init() {
 }
 
 void Game::run() {
+	double dt = 0;
+	double frameTime = _frameDuration;
 	while (_stateManager.hasState()) {
+		dt = deltaTime();
 		_stateManager.handleInput();
-		// TODO make a clock
-		_stateManager.update(1);
-		_renderer.clearScreen();
-		_stateManager.render(_renderer);
-		_renderer.render();
+		_stateManager.update(dt);
+
+		frameTime += dt;
+		if (frameTime >= _frameDuration) {
+			frameTime -= _frameDuration;
+			_renderer.clearScreen();
+			_stateManager.render(_renderer);
+			_renderer.render();
+		}
+
 		_stateManager.handleStateRequests(*this);
-		napms(20);
 	}
 }
 
@@ -43,4 +52,16 @@ const std::deque<Level> &Game::getLevels() const {
 
 const Wordlist &Game::getWordlist() const {
 	return (_wordlist);
+}
+
+double Game::deltaTime() {
+	// first call returns 0
+	static std::chrono::time_point<std::chrono::steady_clock> last =
+		std::chrono::steady_clock::now();
+
+	const auto now = std::chrono::steady_clock::now();
+
+	std::chrono::duration<double> diff = now - last;
+	last = now;
+	return (diff.count());
 }

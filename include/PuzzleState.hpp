@@ -33,6 +33,7 @@ class PuzzleState : public AGamestate {
 		LevelRunner		  _levelRunner;
 		const Wordlist	 &_wordlist;
 		int32_t			  _stateRequest;
+		const double	  _gravityTick = 0.2;
 
 		void drawPuzzleFrame(Renderer &renderer) const;
 		void drawLevel(Renderer &renderer) const;
@@ -41,7 +42,7 @@ class PuzzleState : public AGamestate {
 		PuzzleState(const Game &game);
 		~PuzzleState();
 		void	handleInput();
-		void	update(float deltaTime);
+		void	update(double deltaTime);
 		void	render(Renderer &renderer) const;
 		int32_t getStateRequest() const;
 };

@@ -13,6 +13,7 @@
 #include "Renderer.hpp"
 
 #include <locale.h>
+#include <ncurses.h>
 #include <ncursesw/ncurses.h>
 
 #include <cstring>
@@ -33,6 +34,7 @@ void Renderer::init() {
 	curs_set(0);
 	nodelay(stdscr, TRUE);
 	start_color();
+	set_escdelay(0);
 	_initialized = true;
 }
 

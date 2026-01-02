@@ -14,7 +14,8 @@
 
 #include <stdexcept>
 
-LevelRunner::LevelRunner(const Level &level) {
+LevelRunner::LevelRunner(const Level &level) : _clear(false) {
+	_hilit.fill(false);
 	_levelHistory.push_back(level);
 }
 
@@ -39,6 +40,10 @@ bool LevelRunner::isClear() {
 			return (false);
 	_clear = true;
 	return (true);
+}
+
+bool LevelRunner::outOfMoves() const {
+	return (_levelHistory.back().getRemainingMoves() == 0);
 }
 
 bool LevelRunner::isHilit(uint32_t x, uint32_t y) const {

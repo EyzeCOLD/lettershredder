@@ -28,6 +28,13 @@ PuzzleState::~PuzzleState() {}
 void PuzzleState::handleInput() {
 	int key = getch();
 
+	// ESC
+	if (key == 27) {
+		_stateRequest = 1;
+		return;
+	}
+
+	// Level Complete
 	if (_levelRunner.isClear()) {
 		if (key == KEY_ENTER || key == 10) {
 			if (_currentLevel + 1 == _levels.size())
@@ -37,45 +44,76 @@ void PuzzleState::handleInput() {
 				_feedback.clear();
 				key = 0;
 			}
-		} else
+		} else {
 			return;
+		}
 	}
-
-	if (_input.size() < 11 && std::isalpha(key)) {
-		if (std::islower(key))
-			key = std::toupper(key);
-		_input.push_back(static_cast<char>(key));
-		_feedback.clear();
-	} else if (_input.size() && key == KEY_BACKSPACE) {
-		_input.erase(std::prev(_input.end()));
-		_feedback.clear();
-	} else if ((key == KEY_ENTER || key == 10) &&
-			   _levelRunner.getMatchAmount()) {
-		if (_wordlist.contains(_input)) {
-			_levelRunner.destroyMatches();
-			if (_levelRunner.isClear())
-				_feedback = "Level complete! Press ENTER to continue...";
-			else
-				_feedback = "'" + _input + "' found!";
+	// Out of moves
+	else if (_levelRunner.outOfMoves()) {
+		// ENTER
+		if (key == KEY_ENTER || key == 10) {
+			_levelRunner.loadLevel(_levels.at(_currentLevel));
+			_feedback.clear();
+			key = 0;
+			// Undo
+		} else if (key == ' ') {
+			_levelRunner.undoMove();
 			_input.clear();
-		} else
-			_feedback = "'" + _input + "' not found in the wordlist.";
-	} else if (key == '`') {
-		_levelRunner.undoMove();
-		_input.clear();
-		_feedback.clear();
-	} else {
-		return;
+			_feedback.clear();
+		} else {
+			return;
+		}
 	}
+	// The usual
+	else {
+		_levelRunner.updateMatches(_input);
+		_levelRunner.hilightMatches();
 
-	_levelRunner.updateMatches(_input);
-	_levelRunner.hilightMatches();
+		// Letter input
+		if (_input.size() < 11 && std::isalpha(key)) {
+			if (std::islower(key))
+				key = std::toupper(key);
+			_input.push_back(static_cast<char>(key));
+			_feedback.clear();
+			// BACKSPACE
+		} else if (_input.size() && key == KEY_BACKSPACE) {
+			_input.erase(std::prev(_input.end()));
+			_feedback.clear();
+			// ENTER
+		} else if (key == KEY_ENTER || key == 10) {
+			if (_levelRunner.getMatchAmount() == 0)
+				_feedback = "'" + _input + "' not found on the board";
+			else if (_wordlist.contains(_input)) {
+				_levelRunner.destroyMatches();
+				if (_levelRunner.isClear())
+					_feedback = "Level complete! Press ENTER to continue...";
+				else if (_levelRunner.outOfMoves())
+					_feedback = "OUT OF MOVES, press ENTER to retry...";
+				else
+					_feedback = "'" + _input + "' found!";
+				_input.clear();
+			} else
+				_feedback = "'" + _input + "' not found in the wordlist.";
+			// Undo
+		} else if (key == ' ') {
+			_levelRunner.undoMove();
+			_input.clear();
+			_feedback.clear();
+		} else {
+			return;
+		}
+	}
 }
 
-void PuzzleState::update(float deltaTime) {
-	(void)deltaTime;
-	if (not _levelRunner.isClear())
+void PuzzleState::update(double deltaTime) {
+	static double accum;
+	if ((accum += deltaTime) < _gravityTick)
+		return;
+	else
+		accum -= _gravityTick;
+	if (not _levelRunner.isClear()) {
 		_levelRunner.applyGravity();
+	}
 }
 
 void PuzzleState::render(Renderer &renderer) const {

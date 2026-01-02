@@ -50,7 +50,7 @@ void MenuState::handleInput() {
 	_selectedId = (_selectedId + _currentMenu->size()) % _currentMenu->size();
 }
 
-void MenuState::update(float deltaTime) {
+void MenuState::update(double deltaTime) {
 	(void)deltaTime;
 	if (_stateRequest == 3 && _currentMenu == &_mainMenu) {
 		_stateRequest = 0;

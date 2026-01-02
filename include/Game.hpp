@@ -26,6 +26,9 @@ class Game {
 		std::deque<Level> _levels;
 		Wordlist		  _wordlist;
 
+		static constexpr uint32_t _frameRate = 20;
+		static constexpr double	  _frameDuration = 1.0 / _frameRate;
+
 		std::deque<Level> getPuzzles();
 
 	public:
@@ -35,6 +38,7 @@ class Game {
 		void					 run();
 		const std::deque<Level> &getLevels() const;
 		const Wordlist			&getWordlist() const;
+		double					 deltaTime();
 };
 
 #endif

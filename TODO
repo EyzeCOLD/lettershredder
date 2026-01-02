@@ -1,6 +1,5 @@
 Puzzle Mode:
 	* Create more levels (atleast 20)
-	* Create loss/retry screen when out of moves and not clear
 	* Create a win screen when you beat the game
 	* Implement delta time to make a more sophisticated system for timing and
 	animations
@@ -51,3 +50,6 @@ Gameplay Pause Menu:
 	* Help to show controls
 	* Exit to menu
 	* Exit game
+
+Misc:
+	* Figure out if Renderer could be made to work without the wide char ncurses

@@ -46,10 +46,8 @@ class LevelRunner {
 		const Level &getCurrentState() const;
 		uint32_t	 getMatchAmount() const;
 		bool		 isClear();
+		bool		 outOfMoves() const;
 		bool		 isHilit(uint32_t x, uint32_t y) const;
-		uint32_t	 getHistorySize() const {
-			return (_levelHistory.size());
-		}
 
 		void loadLevel(const Level &level);
 		void updateMatches(const std::string &str);

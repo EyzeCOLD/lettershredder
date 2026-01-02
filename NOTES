@@ -1,0 +1,5 @@
+NOTES
+
+* Project uses the wide character ncurses because I had trouble printing C++
+strings. I assume this could be done without ncursesw, by modifying the Renderer
+code to transform the strings somehow.
