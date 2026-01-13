@@ -17,12 +17,13 @@
 NAME		:= bin/lettershredder
 SRC_DIR		:= src/
 
-SRC			:= Game.cpp \
+SRC			:= AMenu.cpp \
+			   Game.cpp \
 			   Level.cpp \
 			   LevelRunner.cpp \
-			   MenuState.cpp \
 			   Puzzles.cpp \
-			   PuzzleState.cpp \
+			   PuzzleMode.cpp \
+			   PuzzleModeLevelSelect.cpp \
 			   Renderer.cpp \
 			   StateManager.cpp \
 			   Wordlist.cpp \
@@ -49,7 +50,7 @@ DEBUG_DEP		:= $(DEBUG_OBJ:.o=.d)
 ### FLAGS ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 CXX			:= c++
-CXXSTD		:= -std=c++11
+CXXSTD		:= -std=c++20
 CXXFLAGS	:= $(CXXSTD) -Wall -Wextra -Werror -Wmissing-declarations \
 			   -Wshadow
 SPEED_FLAGS	:= -O2

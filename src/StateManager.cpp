@@ -6,59 +6,80 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:16:06 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/15 16:09:00 by juaho            ###   ########.fr       */
+/*   Updated: 2026/01/13 16:05:51 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "StateManager.hpp"
 
-#include "AGamestate.hpp"
+#include "AState.hpp"
 #include "Game.hpp"
-#include "MenuState.hpp"
-#include "PuzzleState.hpp"
+#include "PauseMenu.hpp"
+#include "PuzzleMode.hpp"
+#include "PuzzleModeLevelSelect.hpp"
+#include "PuzzleModeMenu.hpp"
+#include "PuzzleWinMenu.hpp"
+#include "StartMenu.hpp"
 
-StateManager::StateManager() : _gameState(nullptr) {
-	loadState(new MenuState());
+StateManager::StateManager() {
+	_gameState.emplace(std::make_unique<StartMenu>());
 }
 
-StateManager::~StateManager() {
-	delete _gameState;
-}
+StateManager::~StateManager() {}
 
-void StateManager::loadState(AGamestate *newState) {
-	delete _gameState;
-	_gameState = newState;
+AState &StateManager::currentState() {
+	return (*_gameState.top());
 }
 
 void StateManager::handleInput() {
-	_gameState->handleInput();
+	currentState().handleInput();
 }
 
 void StateManager::update(float dt) {
-	_gameState->update(dt);
+	currentState().update(dt);
 }
 
 void StateManager::render(Renderer &render) {
-	_gameState->render(render);
+	currentState().render(render);
 }
 
 void StateManager::handleStateRequests(const Game &game) {
-	switch (_gameState->getStateRequest()) {
+	StateRequest stateRequest = currentState().extractStateRequest();
+	switch (stateRequest.request) {
 		case 1:
-			delete _gameState;
-			_gameState = nullptr;
+			while (hasState())
+				_gameState.pop();
 			break;
 		case 2:
-			loadState(new PuzzleState(game));
+			_gameState.pop();
+			pushState<PuzzleMode>(game, stateRequest.index);
 			break;
 		case 3:
-			loadState(new MenuState());
+			_gameState.pop();
+			pushState<StartMenu>();
 			break;
+		case 4:
+			pushState<PauseMenu>();
+			break;
+		case 5:
+			_gameState.pop();
+			break;
+		case 6:
+			_gameState.pop();
+			pushState<PuzzleWinMenu>();
+			break;
+		case 7:
+			_gameState.pop();
+			pushState<PuzzleModeMenu>();
+			break;
+		case 8:
+			_gameState.pop();
+			pushState<PuzzleModeLevelSelect>(game);
 		default:
 			break;
 	}
 }
 
 bool StateManager::hasState() const {
-	return (_gameState != nullptr);
+	return (not _gameState.empty());
 }

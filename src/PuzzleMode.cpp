@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PuzzleState.cpp                                    :+:      :+:    :+:   */
+/*   PuzzleMode.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 10:33:42 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/31 16:01:05 by juaho            ###   ########.fr       */
+/*   Updated: 2026/01/13 16:09:37 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "PuzzleState.hpp"
+#include "PuzzleMode.hpp"
 
 #include <ncursesw/ncurses.h>
 
 #include "Game.hpp"
 
-PuzzleState::PuzzleState(const Game &game)
+PuzzleMode::PuzzleMode(const Game &game, uint32_t currentLevel)
 	: _levels(game.getLevels()),
-	  _currentLevel(0),
-	  _levelRunner(_levels.front()),
-	  _wordlist(game.getWordlist()),
-	  _stateRequest(0) {}
+	  _currentLevel(currentLevel),
+	  _levelRunner(_levels.at(currentLevel)),
+	  _wordlist(game.getWordlist()) {}
 
-PuzzleState::~PuzzleState() {}
+PuzzleMode::~PuzzleMode() {}
 
-void PuzzleState::handleInput() {
+void PuzzleMode::handleInput() {
 	int key = getch();
 
 	// ESC
 	if (key == 27) {
-		_stateRequest = 1;
+		_stateRequest.request = 4;
 		return;
 	}
 
@@ -38,7 +37,7 @@ void PuzzleState::handleInput() {
 	if (_levelRunner.isClear()) {
 		if (key == KEY_ENTER || key == 10) {
 			if (_currentLevel + 1 == _levels.size())
-				_feedback = "YOU WIN";
+				_stateRequest.request = 6;
 			else {
 				_levelRunner.loadLevel(_levels.at(++_currentLevel));
 				_feedback.clear();
@@ -105,7 +104,7 @@ void PuzzleState::handleInput() {
 	}
 }
 
-void PuzzleState::update(double deltaTime) {
+void PuzzleMode::update(double deltaTime) {
 	static double accum;
 	if ((accum += deltaTime) < _gravityTick)
 		return;
@@ -116,27 +115,14 @@ void PuzzleState::update(double deltaTime) {
 	}
 }
 
-void PuzzleState::render(Renderer &renderer) const {
+void PuzzleMode::render(Renderer &renderer) const {
 	drawPuzzleFrame(renderer);
 	drawLevel(renderer);
 }
 
-void PuzzleState::drawPuzzleFrame(Renderer &renderer) const {
+void PuzzleMode::drawPuzzleFrame(Renderer &renderer) const {
 	renderer.setDrawColor(3, 0);
-	std::string topLine = "╔";
-	std::string bottomLine = "╚";
-	for (uint32_t i = 0; i < PUZZLE_W; i++) {
-		topLine.append("═══");
-		bottomLine.append("═══");
-	}
-	topLine.append("╗");
-	bottomLine.append("╝");
-	renderer.drawText(topLine, UI_X, UI_Y);
-	for (uint32_t i = 0; i < PUZZLE_H; i++) {
-		renderer.drawText("║", UI_X, UI_Y + 1 + i);
-		renderer.drawText("║", UI_X + 1 + PUZZLE_W * 3, UI_Y + 1 + i);
-	}
-	renderer.drawText(bottomLine, UI_X, UI_Y + 1 + PUZZLE_H);
+	renderer.drawBox(UI_X, UI_Y, PUZZLE_W * 3, PUZZLE_H);
 
 	renderer.drawText(_feedback, UI_X, UI_Y + 2 + PUZZLE_H);
 	renderer.drawText("Input: ", UI_X, UI_Y + 3 + PUZZLE_H);
@@ -145,7 +131,7 @@ void PuzzleState::drawPuzzleFrame(Renderer &renderer) const {
 	renderer.resetDrawColor();
 }
 
-void PuzzleState::drawLevel(Renderer &renderer) const {
+void PuzzleMode::drawLevel(Renderer &renderer) const {
 	Level level = _levelRunner.getCurrentState();
 
 	std::string current = "LEVEL " + std::to_string(_currentLevel + 1);
@@ -171,8 +157,4 @@ void PuzzleState::drawLevel(Renderer &renderer) const {
 		}
 	}
 	renderer.resetDrawColor();
-}
-
-int32_t PuzzleState::getStateRequest() const {
-	return (_stateRequest);
 }

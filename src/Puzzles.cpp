@@ -6,7 +6,7 @@
 /*   By: juaho <juaho@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 15:16:29 by juaho             #+#    #+#             */
-/*   Updated: 2025/12/31 15:54:03 by juaho            ###   ########.fr       */
+/*   Updated: 2026/01/13 15:28:23 by juaho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ std::deque<Level> Game::getPuzzles() {
 			   'H', ' ', ' ', ' ', ' ', 'E', 'A', 'S', 'T', ' '},  //
 			  4));												   //
 																   //
-	// LEVEL 6 -- Introduction to snaking words
+	// LEVEL 5 -- Introduction to snaking words
 	puzzles.push_back(
 		Level({' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',   //
 			   ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',   //
@@ -86,7 +86,7 @@ std::deque<Level> Game::getPuzzles() {
 			  2));												   //
 																   //
 
-	// LEVEL 7 -- Snakey word 2
+	// LEVEL 6 -- Snakey word 2
 	puzzles.push_back(
 		Level({' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',   //
 			   ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',   //
@@ -100,7 +100,7 @@ std::deque<Level> Game::getPuzzles() {
 			   ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},  //
 			  1));												   //
 																   //
-	// LEVEL 8 -- Doublekill
+	// LEVEL 7 -- Doublekill
 	puzzles.push_back(
 		Level({' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',   //
 			   ' ', 'D', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',   //
@@ -114,7 +114,7 @@ std::deque<Level> Game::getPuzzles() {
 			   ' ', ' ', ' ', 'D', 'O', 'U', 'B', 'L', 'E', ' '},  //
 			  1));												   //
 																   //
-	// LEVEL 9 -- Doublekill 2
+	// LEVEL 8 -- Doublekill 2
 	puzzles.push_back(
 		Level({' ', ' ', 'L', ' ', ' ', ' ', ' ', ' ', ' ', ' ',   //
 			   ' ', ' ', 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ',   //
@@ -128,7 +128,7 @@ std::deque<Level> Game::getPuzzles() {
 			   ' ', 'J', ' ', 'O', 'I', 'L', ' ', ' ', ' ', ' '},  //
 			  2));												   //
 																   //
-	// LEVEL 10 -- Megakill
+	// LEVEL 9 -- Megakill
 	puzzles.push_back(
 		Level({' ', ' ', ' ', 'C', 'O', 'B', 'R', 'A', ' ', ' ',   //
 			   ' ', ' ', ' ', 'C', 'O', 'B', 'R', ' ', ' ', ' ',   //

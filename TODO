@@ -1,14 +1,8 @@
 Puzzle Mode:
 	* Create more levels (atleast 20)
-	* Create a win screen when you beat the game
-	* Implement delta time to make a more sophisticated system for timing and
-	animations
-
-	+ Ideas:
-		- World system, to divide levels into worlds
-		- Save player progress, so you don't have to restart
-		- Custom puzzles from files, could be multiple puzzles per file
-		- So there would be a level select menu under Puzzle Mode
+    * World system, to divide levels into worlds
+	* Save player progress, so you don't have to restart
+	* Custom puzzles from files, could be multiple puzzles per file
 
 Endless Mode:
 	* Implement the whole thing
@@ -42,14 +36,7 @@ Shootout Mode:
 	* Honestly this requires a lot of prototyping.
 	* Highscore!
 
-Options:
-	* Color themes? Dark/light mode?
-	* Most likely just scrap it
-
-Gameplay Pause Menu:
-	* Help to show controls
-	* Exit to menu
-	* Exit game
-
 Misc:
 	* Figure out if Renderer could be made to work without the wide char ncurses
+	* Make loading levels do less copying
+	* Track deltaTime with a member variable instead of a static
