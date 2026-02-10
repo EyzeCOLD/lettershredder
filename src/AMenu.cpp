@@ -17,7 +17,7 @@
 #include <stdexcept>
 
 AMenu::AMenu(std::string_view textBlock, std::vector<MenuItem> menuItems)
-	: _textBlock(textBlock), _menuItems(std::move(menuItems)) {}
+	: _textBlock(textBlock), _menuItems(std::move(menuItems)), _selectedId(0) {}
 
 void AMenu::handleInput() {
 	if (_menuItems.empty())
